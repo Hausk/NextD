@@ -1,4 +1,11 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker-next
+    ports:
+      - '3000:3000'
   db:
     image: mysql:8.0
     platform: linux/x86_64
