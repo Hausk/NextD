@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY . .
 RUN npm ci
-RUN npx next build
-COPY . .
+RUN npm run build
+EXPOSE 3000
 
-CMD ["npx", "next", "start"]
+CMD ["npm", "start"]
