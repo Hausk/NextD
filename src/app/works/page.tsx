@@ -1,14 +1,45 @@
-'use client'
+"use client"
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Parallax } from "swiper/modules";
-import { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 const elements = Array.from({length: 10}, (_, index) => {
   <Image key={index} src={'https://picsum.photos/200/300?random=' + index} width={100} height={100} alt='random'/>
 })
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 import 'swiper/css';
+
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+     
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+    
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
+}
 
 export default function Page() {
   const imgUrls = numbers.map((_, index) => `https://picsum.photos/200/300?random=${index}`);
@@ -35,6 +66,8 @@ export default function Page() {
     const handleSlideChange = (swiper: any) => {
       setCurrentSlide(swiper.activeIndex);
   };
+  // Size of window
+  const size = useWindowSize();
   return (
     <>
       <div className="h-screen overflow-hidden">
@@ -72,12 +105,12 @@ export default function Page() {
                   data-swiper-parallax="0"
                 />
                 <div className="-rotate-12 absolute top-0 -left-[1rem] mix-blend-difference">
-                  <p className="text-center font-medium text-5xl text-white rounded-sm" data-swiper-parallax={window.innerWidth > window.innerHeight ? "-200%" : "-500%"}>
+                  <p className="text-center font-medium text-5xl text-white rounded-sm" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
                       {item.title}
                   </p>
                 </div>
                 <div className="-rotate-6 absolute bottom-0 -right-[1rem] mix-blend-difference">
-                  <p className="text-center font-medium text-5xl text-white" data-swiper-parallax={window.innerWidth > window.innerHeight ? "-200%" : "-500%"}>
+                  <p className="text-center font-medium text-5xl text-white" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
                       {item.year}
                   </p>
                   </div>
