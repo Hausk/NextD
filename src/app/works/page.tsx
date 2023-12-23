@@ -95,7 +95,7 @@ export default function Page() {
         >
           {lists.map((item, index) => (
             <SwiperSlide key={index} className="w-full flex relative">
-              <div className="m-auto w-[80%] md:w-[60%] relative">
+              <div className="m-auto w-[95%] md:w-[60%] relative">
                 <Image
                   className="w-full m-auto pt-5 rounded-sm"
                   src={item.img}
@@ -104,12 +104,12 @@ export default function Page() {
                   height={600}
                   data-swiper-parallax="0"
                 />
-                <div className="-rotate-12 absolute top-0 -left-[1rem] mix-blend-difference">
+                <div className="-rotate-6 absolute top-6 left-1 mix-blend-difference">
                   <p className="text-center font-medium text-5xl text-white rounded-sm" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
                       {item.title}
                   </p>
                 </div>
-                <div className="-rotate-6 absolute bottom-0 -right-[1rem] mix-blend-difference">
+                <div className="-rotate-6 absolute bottom-6 right-1 mix-blend-difference">
                   <p className="text-center font-medium text-5xl text-white" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
                       {item.year}
                   </p>
