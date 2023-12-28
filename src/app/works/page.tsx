@@ -9,6 +9,7 @@ const elements = Array.from({length: 10}, (_, index) => {
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 import 'swiper/css';
+import GetWorksRelatedImages from '@/components/GetWorksImages';
 
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -42,7 +43,7 @@ function useWindowSize() {
 }
 
 export default function Page() {
-  const imgUrls = numbers.map((_, index) => `https://picsum.photos/200/300?random=${index}`);
+  const randomImage = `https://picsum.photos/400/400?random=1`;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const slideVariants = {
@@ -50,19 +51,20 @@ export default function Page() {
       visible: { x: 0 },
   };
 
-  const img1 = 'https://fastly.picsum.photos/id/610/400/600.jpg?hmac=lBzINTZQOsnRP3X3_L5t3gvPWyj9z8tLL4IkvSn48x0'
-  const img2 = 'https://fastly.picsum.photos/id/694/400/600.jpg?hmac=lKkl78L9Lb2Mw4DJ2f-Yw4gyYt1cbQObNszqiAJto4E'
-  const img3 = 'https://fastly.picsum.photos/id/167/400/600.jpg?hmac=IaHo-3Pn-iSsjtRY7DCyw5VvorKVSSERQSgdD7T1xHw'
-  const img4 = 'https://fastly.picsum.photos/id/550/400/600.jpg?hmac=BVOnFTLer0NJBfa6eszNm4RLeEfWPVcAQ7GOrGTqT7w'
-  const img5 = 'https://fastly.picsum.photos/id/119/400/600.jpg?hmac=CQUOkA4wYD1HbPxsyd254_MO7AG8M5I1xFtr404s-SY'
+  const img1 = 'https://fastly.picsum.photos/id/454/400/400.jpg?hmac=gNa9-nZrP5LIX1bSSxqo6wP-1wBpQQE18rEh3dlTeZk'
+  const img2 = 'https://fastly.picsum.photos/id/575/400/400.jpg?hmac=dS8X4b6zSoqMLuN37UirCnpHt3TGQ7IPMILoxuDTd1A'
+  const img3 = 'https://fastly.picsum.photos/id/523/400/400.jpg?hmac=PedKFy24KWQMh9s22TfdeaV6h8AeNI2TJHIYEuE8pKQ'
+  const img4 = 'https://fastly.picsum.photos/id/664/400/400.jpg?hmac=1J86tomquTup08smi7VP7k4bYCOaVxcDfE0haNsOnMQ'
+  const img5 = 'https://fastly.picsum.photos/id/728/400/400.jpg?hmac=xtWGyeD7CpdTO7SA7QLBExpmf6QqW6yuHb9Ase_-6z0'
 
   const [lists, setLists] = useState([
-      { title: "Lisbonne", year: "2023", img: img1, quantity: 50 },
-      { title: "Portugal", year: "2023", img: img2, quantity: 10 },
-      { title: "Italie", year: "2022", img: img3, quantity: 22 },
-      { title: "France", year: "2022", img: img4, quantity: 41 },
-      { title: "Porto", year: "2021", img: img5, quantity: 105 },
+      { id: 1, title: "Lisbonne", year: "2023", img: img1, quantity: 50 },
+      { id: 1, title: "Portugal", year: "2023", img: img2, quantity: 10 },
+      { id: 1, title: "Italie", year: "2022", img: img3, quantity: 22 },
+      { id: 1, title: "France", year: "2022", img: img4, quantity: 41 },
+      { id: 1, title: "Porto", year: "2021", img: img5, quantity: 105 },
   ]);
+  const galleryList = [1,2,3,4,5,6,7,8,9]
     const handleSlideChange = (swiper: any) => {
       setCurrentSlide(swiper.activeIndex);
   };
@@ -70,50 +72,41 @@ export default function Page() {
   const size = useWindowSize();
   return (
     <>
-      <div className="h-screen overflow-hidden">
+      <div className="h-screen overflow-hidden bg-gradient-to-tr from-slate-800 to-slate-950">
         <Swiper
           onSlideChange={handleSlideChange}
           pagination={{ dynamicBullets: true }}
           modules={[Parallax]}
           spaceBetween={0}
           centeredSlides={true}
+          direction='horizontal'
           slidesPerView={1}
           loop={true}
           parallax={true}
           className="h-screen z-100 w-screen m-auto"
-          breakpoints={{
-            320: {
-                slidesPerView: 1,
-                direction: 'vertical'
-            },
-            640: {
-                slidesPerView: 2,
-                spaceBetween: 50,
-                direction: 'horizontal',
-            }
-        }}
         >
           {lists.map((item, index) => (
             <SwiperSlide key={index} className="w-full flex relative">
-              <div className="m-auto w-[95%] md:w-[60%] relative">
+              <div className="w-[100%] relative h-screen md:flex">
                 <Image
-                  className="w-full m-auto pt-5 rounded-sm"
+                  className="w-[90vw] md:w-[40vw] my-4 mx-auto md:m-auto rounded-lg"
                   src={item.img}
                   alt="slide"
-                  width={400}
-                  height={600}
+                  width={1000}
+                  height={1000}
                   data-swiper-parallax="0"
                 />
-                <div className="-rotate-6 absolute top-6 left-1 mix-blend-difference">
+                <div className="m-auto w-[90%] md:w-[40vw] flex flex-col">
                   <p className="text-center font-medium text-5xl text-white rounded-sm" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
-                      {item.title}
+                      {item.title} {item.year}
+                  </p>
+                  <div id="photobox" className="w-[100%] my-3 md:my-6 grid grid-cols-3 md:grid-cols-3 gap-4">
+                    <GetWorksRelatedImages workId={item.id} />
+                  </div>
+                  <p className="text-center font-medium text-3xl text-white rounded-sm" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
+                      Voir plus
                   </p>
                 </div>
-                <div className="-rotate-6 absolute bottom-6 right-1 mix-blend-difference">
-                  <p className="text-center font-medium text-5xl text-white" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
-                      {item.year}
-                  </p>
-                  </div>
             </div>
           </SwiperSlide>
           ))}
