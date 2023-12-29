@@ -9,7 +9,6 @@ const elements = Array.from({length: 10}, (_, index) => {
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 import 'swiper/css';
-import GetWorksRelatedImages from '@/components/GetWorksImages';
 
 function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -101,7 +100,6 @@ export default function Page() {
                       {item.title} {item.year}
                   </p>
                   <div id="photobox" className="w-[100%] my-3 md:my-6 grid grid-cols-3 md:grid-cols-3 gap-4">
-                    <GetWorksRelatedImages workId={item.id} />
                   </div>
                   <p className="text-center font-medium text-3xl text-white rounded-sm" data-swiper-parallax={size.width < size.height ? '-500' : '-200'}>
                       Voir plus
